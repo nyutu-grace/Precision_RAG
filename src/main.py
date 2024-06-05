@@ -1,4 +1,3 @@
-# main.py
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from transformers import RagTokenizer, RagRetriever, RagSequenceForGeneration

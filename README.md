@@ -3,7 +3,7 @@ The main of this project is to improve on the three key services of the company.
 
 ## Project Structure
 ```
-PRECISION_RAG/
+Precision_RAG/
 ├── docs/
 │   └── api_documentation.md
 ├── notebooks/
@@ -48,8 +48,8 @@ PRECISION_RAG/
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/username/AmharicNLPDataCollection.git
-    cd AmharicNLPDataCollection
+    git clone https://github.com/nyutu-grace/Precision_RAG.git
+    cd Precision_RAG
     ```
 
 2. **Install Python dependencies:**

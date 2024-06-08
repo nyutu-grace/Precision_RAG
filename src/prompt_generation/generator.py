@@ -26,22 +26,6 @@ class PromptGenerator:
         self.env_manager = get_env_manager()
         self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    '''def get_completion(prompt, model=None, max_tokens=60):
-
-        fw_model_dir = "accounts/fireworks/models/"
-
-        if model is None:
-            model = fw_model_dir + "llama-v2-7b"
-        else:
-            model = fw_model_dir + model
-
-        completion = fireworks.client.Completion.create(
-            model=model,
-            prompt=prompt,
-            max_tokens=max_tokens,
-            temperature=0
-        )
-        return completion.choices[0].text'''
         
     def get_completion(
         self,

@@ -1,58 +1,100 @@
 import React, { useState } from 'react';
-import { ChakraProvider, Box, VStack, Heading, Textarea, Button, FormControl, FormLabel, Spinner, Text } from '@chakra-ui/react';
 import axios from 'axios';
+import {Box, Button, Container, Heading, Input, Textarea, VStack, FormControl, FormLabel, Text,} from '@chakra-ui/react';
 
 function App() {
+  const [numTestOutput, setNumTestOutput] = useState('');
+  const [objective, setObjective] = useState('');
+  const [output, setOutput] = useState('');
+  const [generatedPrompt, setGeneratedPrompt] = useState(null);
   const [query, setQuery] = useState('');
-  const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [userMessage, setUserMessage] = useState('');
+  const [evaluationResult, setEvaluationResult] = useState(null);
 
-
-  const handleSubmit = async () => {
-    setLoading(true);
-    setError(null);
-    setResult(null);
+  const handleGeneratePrompts = async () => {
     try {
       const response = await axios.post('http://localhost:8000/generate_prompts/', {
-        query,
-        });
-      setResult(response.data);
-    } catch (err) {
-      setError('Failed to generate prompts. Please try again.');
-    }
-    setLoading(false);
-  };
+          num_test_output: numTestOutput,
+          objective: objective,
+          output: output
+      });
+      setGeneratedPrompt(response.data);
+  } catch (error) {
+      console.error('Error generating prompt:', error);
+  }
+};
 
-  return (
-    <ChakraProvider>
-      <Box maxW="800px" mx="auto" p={4}>
-        <VStack spacing={4}>
-          <Heading as="h1" size="xl" textAlign="center">Prompt Generator</Heading>
-          <FormControl id="query">
-            <FormLabel>Input your document or result</FormLabel>
-            <Textarea
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Enter your document or result here..."
-              size="lg"
-            />
-          </FormControl>
-          <Button colorScheme="teal" onClick={handleSubmit} isFullWidth>Generate Prompts</Button>
-          {loading && <Spinner />}
-          {error && <Text color="red.500">{error}</Text>}
-          {result && (
-            <Box w="100%" p={4} borderWidth={1} borderRadius="lg">
-              <Heading as="h2" size="md">Generated Prompts</Heading>
-              <Text mt={2}>{result.prompt}</Text>
+  const handleEvaluatePrompts = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/evaluate_prompts/', {
+          query: query,
+          user_message: userMessage
+      });
+      setEvaluationResult(response.data);
+  } catch (error) {
+      console.error('Error evaluating prompt:', error);
+  }
+};
+
+return (
+    <Container maxW="container.md" py={10}>
+        <VStack spacing={10}>
+            <Box w="100%">
+                <Heading mb={5}>Prompt Generation and Evaluation</Heading>
+                <Box p={5} shadow="md" borderWidth="1px">
+                    <Heading size="md" mb={4}>Generate Prompt</Heading>
+                    <VStack spacing={4}>
+                        <FormControl id="numTestOutput">
+                            <FormLabel>Num Test Output</FormLabel>
+                            <Input type="text" value={numTestOutput} onChange={(e) => setNumTestOutput(e.target.value)} />
+                        </FormControl>
+                        <FormControl id="objective">
+                            <FormLabel>Objective</FormLabel>
+                            <Input type="text" value={objective} onChange={(e) => setObjective(e.target.value)} />
+                        </FormControl>
+                        <FormControl id="output">
+                            <FormLabel>Output</FormLabel>
+                            <Input type="text" value={output} onChange={(e) => setOutput(e.target.value)} />
+                        </FormControl>
+                        <Button colorScheme="teal" onClick={handleGeneratePrompts}>Generate</Button>
+                        {generatedPrompt && (
+                            <Box p={5} shadow="md" borderWidth="1px" w="100%">
+                                <Heading size="sm">Generated Prompt</Heading>
+                                <Text>Prompt: {generatedPrompt.prompt}</Text>
+                                <Text>Score: {generatedPrompt.score}</Text>
+                            </Box>
+                        )}
+                    </VStack>
+                </Box>
             </Box>
-          )}
+            <Box w="100%">
+                <Box p={5} shadow="md" borderWidth="1px">
+                    <Heading size="md" mb={4}>Evaluate Prompt</Heading>
+                    <VStack spacing={4}>
+                        <FormControl id="query">
+                            <FormLabel>Query</FormLabel>
+                            <Input type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
+                        </FormControl>
+                        <FormControl id="userMessage">
+                            <FormLabel>User Message</FormLabel>
+                            <Input type="text" value={userMessage} onChange={(e) => setUserMessage(e.target.value)} />
+                        </FormControl>
+                        <Button colorScheme="teal" onClick={handleEvaluatePrompts}>Evaluate</Button>
+                        {evaluationResult && (
+                            <Box p={5} shadow="md" borderWidth="1px" w="100%">
+                                <Heading size="sm">Evaluation Result</Heading>
+                                <Text>Result: {evaluationResult.result}</Text>
+                            </Box>
+                        )}
+                    </VStack>
+                </Box>
+            </Box>
         </VStack>
-      </Box>
-    </ChakraProvider>
-  );
+    </Container>
+
+);
 }
 
-export default App;
 
+export default App;
 

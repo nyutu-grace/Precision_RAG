@@ -2,38 +2,14 @@
 The main of this project is to improve on the three key services of the company.ie: Automatic Prompt Generation, Automatic Evaluation Data Generation, and Prompt Testing and Ranking.
 
 ## Project Structure
-```
-Precision_RAG/
-├── docs/
-│   └── api_documentation.md
-├── notebooks/
-├── src/
-│   ├── evaluation/
-│   │   ├── __init__.py
-│   │   └── evaluation_data_generator.py
-│   ├── frontend/
-│   │   ├── node_modules/
-│   │   ├── public/
-│   │   │   └── ...
-│   │   ├── src/
-│   │   │   └── ...
-│   │   ├── .gitignore
-│   │   ├── package-lock.json
-│   │   ├── package.json
-│   │   └── README.md
-│   ├── prompt_generation/
-│   │   ├── __init__.py
-│   │   └── prompt_generator.py
-│   ├── tests/
-│   │   └── __init__.py
-│   ├── utils/
-│   │   └── __init__.py
-│   └── main.py
-├── venv/
-├── .gitignore
-├── LICENSE
-└── README.md
-```
+
+-   **/docs:** Contains the api documentation
+-   **/data:** Contains the evaluation set and data preparation scripts.
+-   **/src:** Contains the codebase for the RAG system.
+-   **/notebooks:** Contains jupyter notebooks for analysis.
+-   **/tests:** Contains tests for the python scripts.
+-   **/requirements.txt:** Lists of dependencies.
+
 
 
 ## Getting Started
